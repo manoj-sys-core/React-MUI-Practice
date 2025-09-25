@@ -1,12 +1,8 @@
 // WeatherApp.jsx
 import React, { useState, useEffect } from "react";
-import TextField from "@mui/material/TextField";
-import Stack from "@mui/material/Stack";
-import Button from "@mui/material/Button";
 import Skeleton from "@mui/material/Skeleton";
 import ThermostatAutoIcon from "@mui/icons-material/ThermostatAuto";
 import ThermostatIcon from "@mui/icons-material/Thermostat";
-import Box from "@mui/material/Box";
 import ElectricBorder from "../components/div";
 import SplitText from "../components/texteffect";
 
@@ -66,85 +62,72 @@ const WeatherApp = ({ defaultCity = "Bangalore", apiKey }) => {
   };
 
   return (
-    <div style={{ padding: 20, backgroundColor: "#000", minHeight: "100vh", color: "#fff",  display:"flex", alignItems:"center", flexDirection:"column", gap:"30px"}}>
-      <h1 style={{ fontWeight: "bold", fontSize: "2.5rem", textAlign: "center" }}>
+    <div className="min-h-screen bg-black text-white flex flex-col items-center gap-8 p-8">
+      <h1 className="text-4xl sm:text-5xl font-bold text-cyan-400 text-center">
         Weather App 🌦️
       </h1>
 
-      <Stack direction="row" spacing={1} sx={{ justifyContent: "center", mb: 3 }}>
-        <TextField
+      {/* Input + Button */}
+      <div className="flex flex-col sm:flex-row gap-4 w-full max-w-md justify-center">
+        <input
+          type="text"
+          placeholder="Enter City"
           value={inputCity}
           onChange={(e) => setInputCity(e.target.value)}
-          id="outlined-basic"
-          label="Enter City"
-          variant="outlined"
-          size="small"
-          color="success"
-          sx={{
-            margin:"10px",
-            input: { color: "#fff" },
-            label: { color: "#fff" },
-            fieldset: { borderColor: "#7df9ff" },
-            "&:hover fieldset": { borderColor: "#00e5ff" },
-          }}
+          className="w-full px-3 py-2 rounded border-2 border-cyan-400 bg-black text-white placeholder-cyan-200 focus:outline-none focus:ring-2 focus:ring-cyan-400"
         />
-
-        <Button
-          startIcon={<ThermostatIcon />}
-          size="small"
-          variant="contained"
-          color="success"
+        <button
           onClick={handleFetch}
+          className="flex items-center justify-center gap-2 px-4 py-2 bg-green-600 rounded hover:bg-green-700 transition"
         >
-          Get Weather
-        </Button>
-      </Stack>
+          <ThermostatIcon /> Get Weather
+        </button>
+      </div>
 
+      {/* Loading Skeleton */}
       {loading && (
-        <Box sx={{ width: 300, margin: "0 auto" }}>
-          <Skeleton />
-          <Skeleton animation="wave" />
-          <Skeleton animation={false} />
-        </Box>
+        <div className="w-72 mx-auto space-y-2">
+          <Skeleton height={40} />
+          <Skeleton animation="wave" height={30} />
+          <Skeleton animation={false} height={30} />
+        </div>
       )}
 
-      {error && <p style={{ color: "red", textAlign: "center" }}>{error}</p>}
+      {/* Error */}
+      {error && <p className="text-red-500 font-bold text-center">{error}</p>}
 
+      {/* Weather Card */}
       {weatherData && (
         <ElectricBorder
           color="#7df9ff"
           speed={1}
           chaos={0.5}
           thickness={2}
-          style={{
-            borderRadius: 16,
-            maxWidth: 350,
-            margin: "20px auto",
-            padding: "20px",
-            textAlign: "center",
-            backgroundColor: "#111", // dark box inside black bg
-          }}
+          style={{ borderRadius: "16px" }}
         >
-          <SplitText
-            text={weatherData.city}
-            className="text-6xl font-bold text-center"
-            delay={100}
-            duration={0.6}
-            ease="power3.out"
-            splitType="chars"
-            from={{ opacity: 0, y: 40 }}
-            to={{ opacity: 1, y: 0 }}
-            threshold={0.1}
-            rootMargin="-100px"
-            textAlign="center"
-            onLetterAnimationComplete={handleAnimationComplete}
-          />
+          <div className="bg-gray-900 max-w-xs sm:max-w-sm p-6 mx-auto flex flex-col items-center gap-4 rounded-lg">
+            <SplitText
+              text={weatherData.city}
+                            className="text-4xl font-bold text-center"
+              delay={100}
+              duration={0.6}
+              ease="power3.out"
+              splitType="chars"
+              from={{ opacity: 0, y: 40 }}
+              to={{ opacity: 1, y: 0 }}
+              threshold={0.1}
+              rootMargin="-100px"
+              onLetterAnimationComplete={handleAnimationComplete}
+            />
 
-          <h3 style={{ marginTop: 15, color: "#7df9ff" }}>
-            <ThermostatAutoIcon sx={{ verticalAlign: "middle", mr: 1 }} />
-            Temperature: {weatherData.temp}°C
-          </h3>
-          <h3 style={{ color: "#7df9ff" }}>Condition: {weatherData.description}</h3>
+            <h3 className="flex items-center gap-2 text-cyan-400 text-lg sm:text-xl">
+              <ThermostatAutoIcon />
+              Temperature: {weatherData.temp}°C
+            </h3>
+            <h3 className="text-cyan-400 text-lg sm:text-xl">
+              Condition: {weatherData.description}
+            </h3>
+          </div>
         </ElectricBorder>
       )}
     </div>
