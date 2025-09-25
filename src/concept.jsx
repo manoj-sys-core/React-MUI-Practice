@@ -6,6 +6,7 @@ import Box from "@mui/material/Box";
 import Colorchange from "./colorchange";
 import MainClock from "./time-clock/main";
 import CustomizedAccordions from "./faq's/blueprint";
+import WeatherApp from "./weather-apis/main";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -72,6 +73,7 @@ export default function BasicTabs() {
           <Tab label="Color Change" {...a11yProps(0)} />
           <Tab label="Live CLock" {...a11yProps(1)} />
           <Tab label="FAQ'S" {...a11yProps(2)} />
+                    <Tab label="Weather APP" {...a11yProps(3)} />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
@@ -82,6 +84,9 @@ export default function BasicTabs() {
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
         <CustomizedAccordions faqs={faqs} />
+      </CustomTabPanel>
+            <CustomTabPanel value={value} index={3}>
+        <WeatherApp apiKey={'b5d9b8824c36d79aae56a9daf767cff6'} />
       </CustomTabPanel>
     </Box>
   );
